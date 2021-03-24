@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
             children: [
-              Text("saara poly silk",
+              Text("sara poly silk",
                style: TextStyle(
               color: Colors.white
           ),),
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
 
                 children: [
                   SizedBox(height: 20,),
-                  Text("""saara poly silk embellised , woven salwar suit material (unstiched)"""
+                  Text("saara poly silk embellised , woven salwar suit material (unstiched)"
                     , style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -357,7 +357,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     textAlign: TextAlign.left,),
                   SizedBox(height: 10,),
-                  Text("saraa poly silk embellised , woven salwar suit material (unstiched)saraa poly silk embellised , woven salwar suit material (unstiched)saraa poly silk embellised , woven salwar suit material (unstiched)"
+                  Text(
+                    "saraa poly silk embellised , woven salwar suit material (unstiched)saraa poly silk embellised , woven salwar suit material (unstiched)saraa poly silk embellised , woven salwar suit material (unstiched)"
                     , style: TextStyle(
                       fontSize: 14,
 

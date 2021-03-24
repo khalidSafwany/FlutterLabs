@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/HomePage.dart';
+import 'package:flutter_app/SignupPage.dart';
 
 
 class logInPage extends StatefulWidget {
@@ -144,6 +146,13 @@ class _logInState extends State<logInPage>{
                      ],
                    ),
                       child:  ElevatedButton(
+
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => SignupPage()),
+                            );
+                          },
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -210,6 +219,7 @@ class _logInState extends State<logInPage>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
+
                         style: ElevatedButton.styleFrom(
                             shape: CircleBorder(),
                             primary: Colors.blue

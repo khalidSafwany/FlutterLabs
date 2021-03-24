@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/HomePage.dart';
+import 'package:flutter_app/logInPage.dart';
 
 
 class SignupPage extends StatefulWidget {
@@ -172,6 +174,12 @@ class _SignupPage extends State<SignupPage>{
                   ],
                 ),
                 child:  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
