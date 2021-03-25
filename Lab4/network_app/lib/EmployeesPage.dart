@@ -1,13 +1,17 @@
 import 'dart:convert';
 
 
+import 'package:alice/alice.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:network_app/AddEmployeePage.dart';
+import 'package:network_app/EmployeesModel.dart';
 import 'package:network_app/connectioClass.dart';
 import 'package:network_app/emplyee.dart';
+import 'package:provider/provider.dart';
 
 class employeesListPage extends StatefulWidget {
+
   employeesListPage({Key key}) : super(key: key);
 
   @override
@@ -16,34 +20,27 @@ class employeesListPage extends StatefulWidget {
 
 class _employeesPageState extends State<employeesListPage> {
 
-  Dio dio = new Dio();
-  List<Employee> employeesList = [];
+  Dio dio;
+  Alice alice;
+
   connection con = connection();
   @override
   void initState() {
 
     super.initState();
-   getEmployee();
-  }
-
-  Future<List<Employee>> getEmployee()  async {
-    Response response;
-    response = await dio.get("https://dummy.restapiexample.com/api/v1/employees");
-    // print(response.data.runtimeType);
-    // print(response.data["data"][1]);
-    for(int i = 0 ; i < response.data['data'].length ; i++  ){
-
-      Employee emp = new Employee(response.data["data"][i]["employee_name"], response.data["data"][i]["employee_age"].toString());
-      employeesList.add(emp);
-    }
-
-    for(int i = 0 ; i < employeesList.length ; i++  ){
-      print(employeesList[i].id);
-    }
-    return employeesList;
-    // print(jsonDecode(response.data.toString()));
+   // myModel.getEmployee();
+    dio = Dio();
 
   }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    Provider.of<EmployeesModel>(context,listen: false).getEmployee();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +56,14 @@ class _employeesPageState extends State<employeesListPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => {
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => addemployeePage()),
-            )
+            //Provider.of<EmployeesModel>(context,listen: false).addEmployeeInList(Employee("employee_name", "2"))
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    addemployeePage(),
+              ),
 
+            )
           } ,
           tooltip: 'Increment',
           child: Icon(Icons.add),
@@ -72,46 +72,36 @@ class _employeesPageState extends State<employeesListPage> {
   }
 
   Widget buildBody() {
-    var _textStyle = TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.w700,
-    );
 
-    return FutureBuilder(
-      future: getEmployee(),
-      initialData: [],
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
-          return Center(child: CircularProgressIndicator());
-        else if (snapshot.hasError)
-          return Text("ERROR: ${snapshot.error}");
-        else
-        return Column(
-          children: [
-            Expanded(child:ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: snapshot.data.length ,
-                itemBuilder:(BuildContext context, int index) {
-                  return Container(
-                      height: 50,
-                      margin: EdgeInsets.all(2),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${snapshot.data[index].employee_name }'),
-                          Text('Age : ${snapshot.data[index].employee_age}'),
+        return Consumer<EmployeesModel>(
+                  builder: (context,myModel,child){
+                    print(myModel.employeesList.length.toString() + "length");
+                    return ListView.builder(
+                        padding: const EdgeInsets.all(8),
+                        itemCount: myModel.employeesList.length ,
+                        itemBuilder:(BuildContext context, int index) {
+                          return Container(
+                              height: 50,
+                              margin: EdgeInsets.all(2),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('${myModel.employeesList[index].employee_name}'),
+                                  Text('Age : ${myModel.employeesList[index].employee_age}'),
 
 
-                        ],
-                      )
-                  );
-                }
+                                ],
+                              )
+                          );
+                        }
 
-            )
-            )
-          ],
+                    );
+                  }
+
+
+
+
         );
-      },
-    );
+
   }
 }

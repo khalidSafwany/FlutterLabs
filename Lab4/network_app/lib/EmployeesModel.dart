@@ -1,21 +1,20 @@
-import 'dart:convert';
-
 import 'package:alice/alice.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:network_app/main.dart';
+
 import 'emplyee.dart';
 
-class connection{
-  final _apiKey = "f55fbda0cb73b855629e676e54ab6d8e";
-  final Dio dio = Dio();
 
+class EmployeesModel extends ChangeNotifier{
   List<Employee> employeesList = [];
 
-  Future<List<Employee>> getEmployee()  async {
+
+ Future<void> getEmployee()  async {
     Response response;
 
-
+    Dio dio = Dio();
     //dio.interceptors.add(alice.getDioInterceptor());
-
     response = await dio.get("https://dummy.restapiexample.com/api/v1/employees");
     // print(response.data.runtimeType);
     // print(response.data["data"][1]);
@@ -24,17 +23,18 @@ class connection{
       Employee emp = new Employee(response.data["data"][i]["employee_name"], response.data["data"][i]["employee_age"].toString());
       employeesList.add(emp);
     }
-
+    print(employeesList);
     for(int i = 0 ; i < employeesList.length ; i++  ){
-      print(employeesList[i].employee_name);
+      print(employeesList[i].employee_age);
     }
-    return employeesList;
+    notifyListeners();
     // print(jsonDecode(response.data.toString()));
 
   }
-  }
 
+  addEmployeeInList(Employee newEmployee){
 
-
-
-
+employeesList.add(newEmployee);
+notifyListeners();
+}
+}

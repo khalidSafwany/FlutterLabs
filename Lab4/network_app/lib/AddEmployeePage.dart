@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:network_app/emplyee.dart';
+import 'package:provider/provider.dart';
+
+import 'EmployeesModel.dart';
 
 class addemployeePage extends StatefulWidget {
   addemployeePage({Key key}) : super(key: key);
@@ -26,6 +30,8 @@ class _addemployeePageState extends State<addemployeePage> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -44,6 +50,8 @@ class _addemployeePageState extends State<addemployeePage> {
       Response apiResponse;
       apiResponse = await dio.post("https://dummy.restapiexample.com/api/v1/create", data: 	{"name":'${nameController.text}',"age":'${ageController.text}'});
       print(apiResponse);
+      Employee tempEmployee = Employee(nameController.text, ageController.text);
+      Provider.of<EmployeesModel>(context,listen: false).addEmployeeInList(tempEmployee);
       Navigator.pop(context,true);
     }
 
